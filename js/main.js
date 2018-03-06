@@ -34,7 +34,7 @@ function shuffle(array) {
 
 openCards = [];
 
-
+//função de toggle das cartas
 function toggleCard() {
 
     if (game_started == false) {
@@ -48,7 +48,6 @@ function toggleCard() {
         disableCLick();
     }
     else if (openCards.length === 1) {
-        // increment moves
         updateMoves();
         $(this).toggleClass("show open").animateCss('flipInY');
         openCards.push($(this));
@@ -56,16 +55,19 @@ function toggleCard() {
     }
 }
 
+//desabilita o click
 function disableCLick() {
     openCards.forEach(function (card) {
         card.off('click');
     });
 }
 
+// habilita o click
 function enableClick() {
     openCards[0].click(toggleCard);
 }
 
+//verifica se deu match
 function matchOpenCards() {
     if (openCards[0][0].firstChild.className === openCards[1][0].firstChild.className) {
         openCards[0].addClass("match").animateCss('pulse');
@@ -96,7 +98,7 @@ $.fn.extend({
     }
 });
 
-
+//Função para atualizar o numero de jogadas
 function updateMoves() {
     moves += 1;
     $('#moves').html(`${moves} Moves`);
@@ -107,7 +109,7 @@ function updateMoves() {
         addBlankStar();
     }
 }
-
+//Verifica se os 8 pares foram encontrados, caso de sucesso mostra os resultados,
 function checkWin() {
     match_found += 1;
     if (match_found == 8) {
@@ -132,22 +134,25 @@ function checkWin() {
         showResults();
     }
 }
-
+// adiciona estrela branca
 function addBlankStar() {
     $('#stars').children()[0].remove();
     $('#stars').append('<li><i class="fa fa-star-o"></i></li>');
 }
 
+//adiciona estrelas
 function addStars() {
     for (var i = 0; i < 3; i++) {
         $('#stars').append('<li><i class="fa fa-star"></i></li>');
     }
 }
 
+//reseta o game
 function resetGame() {
     location.reload()
 }
 
+//inicia o jogo
 function playGame() {
     generateCards();
     $('.card').click(toggleCard);
@@ -155,10 +160,11 @@ function playGame() {
     addStars(3);
 }
 
+//mostra os resultados
 function showResults() {
     $('#sucess-result').empty();
     timer.pause();
-    var modal = document.getElementById('win-popup');
+    var modal = $('#win-popup')
     modal.style.display = "block";
 }
 
